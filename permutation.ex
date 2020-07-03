@@ -1,17 +1,17 @@
-defmodule Math do 
-
+defmodule Permu do 
   def nPr(n, r) when n < r, do: 0
-  def nPr(n, r) when r == 0 or n == 9, do: 1
-  def nPr(n, r), do: nPr(n, r, 1)
+  def nPr(n, r) when r == 0 or n == 0, do: 1
+  def nPr(n, r) do
+    Enum.into((n - r + 1)..n, [])
+    |> Enum.reduce(  1, fn r, acc -> acc * r end)
 
-  def nPr(n, 1, ans), do: ans * n 
-  def nPr(n, r, ans) do
-    n * nPr(n - 1, r - 1, ans)  
+    # Enum.into((n - r + 1)..n, [])
+    # |> calP(  1)
+    # |> IO.inspect    
   end
-  # def nPr(n, r) do
-  #   l = Enum.into(r..n, [])
-  #   Enum.reduce(l, 1, fn r, acc -> acc * r end)
-  # end
+  # def calP([], acc), do: acc
+  # def calP([h | t], acc), do: calP(t, acc * h)
+
   def nCr(n, r) when n < r, do: IO.puts("Illegal numbers n=#{n}, r=#{r}")
   def nCr(n, r) when n == r, do: 1
   def nCr(n, r) do
@@ -26,4 +26,13 @@ defmodule Math do
   #   nCr(n, r - 1) * (n - r + 1)/r
 
   # end
+  def permutations([]), do: [[]]
+  def permutations(list) do
+     for elem <- list,
+         rest <- permutations(list--[elem]) 
+     do
+       [elem|rest]
+     end
+  end
+
 end
